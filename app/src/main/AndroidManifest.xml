@@ -17,5 +17,12 @@
             </intent-filter>
         </activity>
     </application>
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <meta-data
+        android:name="com.bridgefy.sdk.API_KEY"
+        android:value="c567d3e3-cb18-4f5f-af10-ef5cf018aa3a" />
 
 </manifest>
