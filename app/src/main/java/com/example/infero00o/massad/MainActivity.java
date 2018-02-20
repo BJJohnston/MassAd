@@ -42,6 +42,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+Peer[] peers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +77,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private MessageListener messageListener = new MessageListener() {
-
+   @Override
+        public void onBroadcastMessageReceived(Message message){
+       String incomingMessage = (String) message.getContent().get("text");
+       String deviceName = (String) message.getContent().get("device_name");
+   }
 
     };
     private StateListener stateListener = new StateListener(){
