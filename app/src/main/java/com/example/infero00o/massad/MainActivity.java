@@ -79,6 +79,8 @@ Peer[] peers;
     private MessageListener messageListener = new MessageListener() {
    @Override
         public void onBroadcastMessageReceived(Message message){
+       Peer peer = new Peer(message.getSenderId(), (String) message.getContent().get("device_name"));
+       peer.isConnected(true);
        String incomingMessage = (String) message.getContent().get("text");
        String deviceName = (String) message.getContent().get("device_name");
    }

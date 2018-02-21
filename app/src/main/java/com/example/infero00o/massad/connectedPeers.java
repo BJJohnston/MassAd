@@ -1,5 +1,6 @@
 package com.example.infero00o.massad;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -8,7 +9,7 @@ import java.util.List;
 
 public class connectedPeers<T> {
     private T peers = null;
-    private List<connectedPeers> children = null;
+    private List<connectedPeers> children = new ArrayList<>();
     private connectedPeers parent = null;
 
     public connectedPeers(T peers) {
@@ -54,5 +55,8 @@ public class connectedPeers<T> {
         return parent;
     }
 
+    public boolean contains(T peers){
+
+    }
 
 }

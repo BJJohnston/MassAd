@@ -5,18 +5,16 @@ package com.example.infero00o.massad;
  */
 
 public class Peer {
-    private String id;
+    private String uuid;
     private String name;
     private boolean connected;
-    private String[] connectedTo;
 
 
 
-    public Peer(String id, String name, boolean connected, String[] connectedTo) {
+    public Peer(String id, String name) {
         this.id = id;
         this.name = name;
-        this.connected = connected;
-        this.connectedTo = connectedTo;
+
     }
 
     public String getId() {
