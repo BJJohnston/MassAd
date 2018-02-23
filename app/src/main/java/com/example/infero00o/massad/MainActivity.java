@@ -42,7 +42,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-Peer[] peers;
+public connectedPeers Peers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +80,8 @@ Peer[] peers;
    @Override
         public void onBroadcastMessageReceived(Message message){
        Peer peer = new Peer(message.getSenderId(), (String) message.getContent().get("device_name"));
-       peer.isConnected(true);
+       peer.setConnected(true);
+       Peers.addChild(peer);
        String incomingMessage = (String) message.getContent().get("text");
        String deviceName = (String) message.getContent().get("device_name");
    }

@@ -55,8 +55,7 @@ public class connectedPeers<T> {
         return parent;
     }
 
-    public boolean contains(T peers){
+//TODO: Add peers contains method
 
-    }
 
 }

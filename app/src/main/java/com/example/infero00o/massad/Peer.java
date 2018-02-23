@@ -11,18 +11,18 @@ public class Peer {
 
 
 
-    public Peer(String id, String name) {
-        this.id = id;
+    public Peer(String uuid, String name) {
+        this.uuid = uuid;
         this.name = name;
 
     }
 
     public String getId() {
-        return id;
+        return uuid;
     }
 
     public void setId(String id) {
-        this.id = id;
+        this.uuid = uuid;
     }
 
     public String getName() {
@@ -41,11 +41,7 @@ public class Peer {
         this.connected = connected;
     }
 
-    public String[] getConnectedTo() {
-        return connectedTo;
-    }
 
-    public void setConnectedTo(String[] connectedTo) {
-        this.connectedTo = connectedTo;
-    }
+
+
 }
