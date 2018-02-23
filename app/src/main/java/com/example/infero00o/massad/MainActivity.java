@@ -1,9 +1,11 @@
 
 package com.example.infero00o.massad;
 
+import com.bridgefy.sdk.client.BFEnergyProfile;
+import com.bridgefy.sdk.client.Config;
 import com.example.infero00o.massad.R;
 import com.example.infero00o.massad.*;
-
+import android.widget.TextView;
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
@@ -23,6 +25,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,10 +47,12 @@ public class MainActivity extends AppCompatActivity {
 
 public connectedPeers Peers;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         BluetoothAdapter btA = BluetoothAdapter.getDefaultAdapter();
         if (!btA.isEnabled()){
                 Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
@@ -58,8 +63,8 @@ public connectedPeers Peers;
         Bridgefy.initialize(getApplicationContext(), "c567d3e3-cb18-4f5f-af10-ef5cf018aa3a", new RegistrationListener() {
             @Override
             public void onRegistrationSuccessful(BridgefyClient bridgefyClient) {
-                //super.onRegistrationSuccessful(bridgefyClient);
                 startBridgefy();
+                Toast.makeText(getApplicationContext(), "Bridgefy Start", Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -68,13 +73,16 @@ public connectedPeers Peers;
             }
         });
 
+        final Button fire = findViewById(R.id.fire);
+        fire.setOnClickListener(new  View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendMessage();
+            }
+        });
 
     }
 
-    public void startBridgefy(){
-        Toast.makeText(getApplicationContext(), "Bridgefy Start", Toast.LENGTH_LONG).show();
-        Bridgefy.start(messageListener, stateListener);
-    }
 
     private MessageListener messageListener = new MessageListener() {
    @Override
@@ -83,12 +91,34 @@ public connectedPeers Peers;
        peer.setConnected(true);
        Peers.addChild(peer);
        String incomingMessage = (String) message.getContent().get("text");
-       String deviceName = (String) message.getContent().get("device_name");
+       TextView textView = findViewById(R.id.textView);
+       textView.setText(incomingMessage);
+
    }
 
     };
     private StateListener stateListener = new StateListener(){
+       @Override
+        public void onDeviceConnected(final Device device, Session session){
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("device_name", Build.MANUFACTURER + " " + Build.MODEL);
+            map.put("device_type", Build.DEVICE);
+            device.sendMessage(map);
+        }
 
     };
+
+
+    public void sendMessage(){
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("Hello", "Fire");
+        Bridgefy.sendBroadcastMessage(data);
+        Toast.makeText(getApplicationContext(), "Message Success", Toast.LENGTH_LONG).show();
+    }
+
+    public void startBridgefy() {
+        Bridgefy.start(messageListener, stateListener);
+        Toast.makeText(getApplicationContext(), "start", Toast.LENGTH_LONG).show();
+    }
 
 }
