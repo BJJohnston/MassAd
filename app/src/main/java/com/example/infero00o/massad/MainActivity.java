@@ -46,6 +46,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
 public connectedPeers Peers;
+    private String TAG = "MainActivity";
 
 
     @Override
@@ -77,12 +78,16 @@ public connectedPeers Peers;
         fire.setOnClickListener(new  View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sendMessage();
+                send();
             }
         });
 
     }
 
+    public void startBridgefy() {
+        Bridgefy.start(messageListener, stateListener);
+        Toast.makeText(getApplicationContext(), "start", Toast.LENGTH_LONG).show();
+    }
 
     private MessageListener messageListener = new MessageListener() {
    @Override
@@ -100,25 +105,33 @@ public connectedPeers Peers;
     private StateListener stateListener = new StateListener(){
        @Override
         public void onDeviceConnected(final Device device, Session session){
-            HashMap<String, Object> map = new HashMap<>();
+           HashMap<String, Object> map = new HashMap<>();
             map.put("device_name", Build.MANUFACTURER + " " + Build.MODEL);
             map.put("device_type", Build.DEVICE);
             device.sendMessage(map);
         }
 
+        @Override
+        public void onStartError(String message, int errorCode) {
+            Log.e(TAG, "onStartError: " + message);
+
+            if (errorCode == StateListener.INSUFFICIENT_PERMISSIONS) {
+                ActivityCompat.requestPermissions(MainActivity.this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+            }
+        }
     };
 
 
-    public void sendMessage(){
+
+
+    public void send(){
         HashMap<String, Object> data = new HashMap<>();
         data.put("Hello", "Fire");
         Bridgefy.sendBroadcastMessage(data);
         Toast.makeText(getApplicationContext(), "Message Success", Toast.LENGTH_LONG).show();
     }
 
-    public void startBridgefy() {
-        Bridgefy.start(messageListener, stateListener);
-        Toast.makeText(getApplicationContext(), "start", Toast.LENGTH_LONG).show();
-    }
+
 
 }
