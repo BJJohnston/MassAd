@@ -2,9 +2,12 @@
 package com.example.infero00o.massad;
 
 import com.bridgefy.sdk.client.BFEnergyProfile;
+import com.bridgefy.sdk.client.BFEngineProfile;
 import com.bridgefy.sdk.client.Config;
 import com.example.infero00o.massad.R;
 import com.example.infero00o.massad.*;
+
+import android.app.PendingIntent;
 import android.widget.TextView;
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
@@ -47,6 +50,10 @@ public class MainActivity extends AppCompatActivity {
 
 public connectedPeers Peers;
     private String TAG = "MainActivity";
+    public String senderID;
+    public int exitCount = 0;
+
+
 
 
     @Override
@@ -91,13 +98,26 @@ public connectedPeers Peers;
 
     private MessageListener messageListener = new MessageListener() {
    @Override
+
+   public void onMessageReceived(Message message){
+            if (message.getContent().get("exit") == "true"){
+                exitCount++;
+                final TextView exit = findViewById(R.id.exit);
+                exit.setText(exitCount);
+                Toast.makeText(getApplicationContext(), "count", Toast.LENGTH_LONG).show();
+
+            }
+        }
         public void onBroadcastMessageReceived(Message message){
-       Peer peer = new Peer(message.getSenderId(), (String) message.getContent().get("device_name"));
+       /*Peer peer = new Peer(message.getSenderId(), (String) message.getContent().get("device_name"));
        peer.setConnected(true);
        Peers.addChild(peer);
        String incomingMessage = (String) message.getContent().get("text");
        TextView textView = findViewById(R.id.textView);
-       textView.setText(incomingMessage);
+       textView.setText(incomingMessage);*/
+       senderID = message.getSenderId();
+       Intent intent = new Intent(getApplicationContext(), Alert.class);
+       startActivity(intent);
 
    }
 
@@ -126,12 +146,20 @@ public connectedPeers Peers;
 
 
     public void send(){
-        HashMap<String, Object> data = new HashMap<>();
-        data.put("Hello", "Fire");
-        Bridgefy.sendBroadcastMessage(data);
-        Toast.makeText(getApplicationContext(), "Message Success", Toast.LENGTH_LONG).show();
+        String messageString = "Fire";
+        HashMap<String, Object> content = new HashMap<>();
+        content.put("text", messageString);
+
+        content.put("device_name", Build.MANUFACTURER + " " + Build.MODEL);
+        content.put("device_type", Build.DEVICE);
+
+        com.bridgefy.sdk.client.Message.Builder builder = new com.bridgefy.sdk.client.Message.Builder();
+        builder.setContent(content);
+        Bridgefy.sendBroadcastMessage(builder.build(), BFEngineProfile.BFConfigProfileLongReach);
     }
 
-
+    public String getSenderID(){
+        return senderID;
+    }
 
 }
