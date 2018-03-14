@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.infero00o.massad.customMessage">
+
+    <EditText
+        android:id="@+id/editTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:inputType="text"
+        android:singleLine="true"
+        android:text="Title:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editMessage"
+        android:layout_width="378dp"
+        android:layout_height="164dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:ellipsize="start"
+        android:ems="10"
+        android:hint="Alert"
+        android:inputType="textAutoCorrect|textShortMessage|textLongMessage"
+        android:singleLine="false"
+        android:text="Message"
+        android:textAlignment="textStart"
+        android:textColorHint="@color/hint"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTitle" />
+
+    <Button
+        android:id="@+id/sendCustomMessage"
+        android:layout_width="377dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="24dp"
+        android:background="@color/colorPrimary"
+        android:text="Send"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editMessage" />
+</android.support.constraint.ConstraintLayout>

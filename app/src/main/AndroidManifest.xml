@@ -27,7 +27,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Alert"></activity>
+        <activity android:name=".Alert" />
+        <activity android:name=".customMessage"></activity>
     </application>
 
 </manifest>

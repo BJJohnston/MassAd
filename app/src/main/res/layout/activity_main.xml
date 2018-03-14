@@ -7,33 +7,36 @@
     tools:context="com.example.infero00o.massad.MainActivity">
 
     <Button
+        android:id="@+id/custom"
+        android:layout_width="143dp"
+        android:layout_height="78dp"
+        android:layout_marginEnd="252dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:text="Custom Message"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/flood" />
+
+    <Button
         android:id="@+id/fire"
         android:layout_width="143dp"
         android:layout_height="78dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginTop="16dp"
         android:text="Fire"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/threat"
+        android:id="@+id/flood"
         android:layout_width="143dp"
         android:layout_height="78dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="threat"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:text="Flood"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/exit"
-        android:layout_width="155dp"
-        android:layout_height="57dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="224dp" />
 
 </android.support.constraint.ConstraintLayout>

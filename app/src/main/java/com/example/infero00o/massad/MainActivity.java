@@ -48,12 +48,11 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-public connectedPeers Peers;
+
+    public connectedPeers Peers;
     private String TAG = "MainActivity";
     public String senderID;
     public int exitCount = 0;
-
-
 
 
     @Override
@@ -62,9 +61,9 @@ public connectedPeers Peers;
         setContentView(R.layout.activity_main);
 
         BluetoothAdapter btA = BluetoothAdapter.getDefaultAdapter();
-        if (!btA.isEnabled()){
-                Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                startActivityForResult(enableBtIntent, 0);
+        if (!btA.isEnabled()) {
+            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(enableBtIntent, 0);
         }
 
 
@@ -76,16 +75,32 @@ public connectedPeers Peers;
             }
 
             @Override
-            public void onRegistrationFailed(int errorCode, String message){
+            public void onRegistrationFailed(int errorCode, String message) {
                 Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
             }
         });
 
         final Button fire = findViewById(R.id.fire);
-        fire.setOnClickListener(new  View.OnClickListener() {
+        fire.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                send();
+                fire();
+            }
+        });
+
+        final Button flood = findViewById(R.id.flood);
+        flood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                flood();
+            }
+        });
+
+        final Button custom = findViewById(R.id.custom);
+        custom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                custom();
             }
         });
 
@@ -97,35 +112,38 @@ public connectedPeers Peers;
     }
 
     private MessageListener messageListener = new MessageListener() {
-   @Override
+        @Override
 
-   public void onMessageReceived(Message message){
-            if (message.getContent().get("exit") == "true"){
-                exitCount++;
-                final TextView exit = findViewById(R.id.exit);
-                exit.setText(exitCount);
-                Toast.makeText(getApplicationContext(), "count", Toast.LENGTH_LONG).show();
+        public void onMessageReceived(Message message) {
 
-            }
+
+
+
+
         }
-        public void onBroadcastMessageReceived(Message message){
+
+        public void onBroadcastMessageReceived(Message message) {
        /*Peer peer = new Peer(message.getSenderId(), (String) message.getContent().get("device_name"));
        peer.setConnected(true);
        Peers.addChild(peer);
        String incomingMessage = (String) message.getContent().get("text");
        TextView textView = findViewById(R.id.textView);
        textView.setText(incomingMessage);*/
-       senderID = message.getSenderId();
-       Intent intent = new Intent(getApplicationContext(), Alert.class);
-       startActivity(intent);
 
-   }
+            int alertType = (int) message.getContent().get("alertType");
+            senderID = message.getSenderId();
+            Intent intent = new Intent(getApplicationContext(), Alert.class);
+            intent.putExtra("SENDER_ID", senderID);
+            intent.putExtra("ALERT_TYPE", alertType);
+            startActivity(intent);
+
+        }
 
     };
-    private StateListener stateListener = new StateListener(){
-       @Override
-        public void onDeviceConnected(final Device device, Session session){
-           HashMap<String, Object> map = new HashMap<>();
+    private StateListener stateListener = new StateListener() {
+        @Override
+        public void onDeviceConnected(final Device device, Session session) {
+            HashMap<String, Object> map = new HashMap<>();
             map.put("device_name", Build.MANUFACTURER + " " + Build.MODEL);
             map.put("device_type", Build.DEVICE);
             device.sendMessage(map);
@@ -143,12 +161,10 @@ public connectedPeers Peers;
     };
 
 
-
-
-    public void send(){
-        String messageString = "Fire";
+    public void fire() {
+        int alertType = 1;
         HashMap<String, Object> content = new HashMap<>();
-        content.put("text", messageString);
+        content.put("alertType", alertType);
 
         content.put("device_name", Build.MANUFACTURER + " " + Build.MODEL);
         content.put("device_type", Build.DEVICE);
@@ -158,8 +174,22 @@ public connectedPeers Peers;
         Bridgefy.sendBroadcastMessage(builder.build(), BFEngineProfile.BFConfigProfileLongReach);
     }
 
-    public String getSenderID(){
-        return senderID;
+    public void flood() {
+        int alertType = 2;
+        HashMap<String, Object> content = new HashMap<>();
+        content.put("alertType", alertType);
+
+        content.put("device_name", Build.MANUFACTURER + " " + Build.MODEL);
+        content.put("device_type", Build.DEVICE);
+
+        com.bridgefy.sdk.client.Message.Builder builder = new com.bridgefy.sdk.client.Message.Builder();
+        builder.setContent(content);
+        Bridgefy.sendBroadcastMessage(builder.build(), BFEngineProfile.BFConfigProfileLongReach);
+    }
+
+    public void custom() {
+        Intent intent = new Intent(getApplicationContext(), customMessage.class);
+        startActivity(intent);
     }
 
 }

@@ -5,6 +5,7 @@ import com.example.infero00o.massad.MainActivity.*;
 import android.R.*;
 import android.app.Notification;
 import android.content.Context;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -17,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.bridgefy.sdk.client.Bridgefy;
 import com.bridgefy.sdk.client.BridgefyClient;
@@ -34,10 +36,22 @@ String senderId;
 
 
 
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alert);
+        Bundle extras = getIntent().getExtras();
+        int alertType = extras.getInt("ALERT_TYPE");
+        if (alertType == 1){
+            TextView t = findViewById(R.id.alert);
+            t.setText("Fire");
+        } else if (alertType == 2){
+            TextView t = findViewById(R.id.alert);
+            t.setText("Flood");
+        }
 
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         // Vibrate for 500 milliseconds
@@ -54,7 +68,7 @@ String senderId;
                 mp.release();
                 exitBuilding();
                 finish();
-                System.exit(0);
+
             }
         });
 
@@ -64,7 +78,6 @@ String senderId;
     public void exitBuilding(){
 
         MainActivity main = new MainActivity();
-        senderId = main.getSenderID();
         String exit = "true";
         HashMap<String, Object> content = new HashMap<>();
         content.put("exit", exit);
