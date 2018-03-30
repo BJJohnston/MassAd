@@ -132,10 +132,23 @@ public class MainActivity extends AppCompatActivity {
 
             int alertType = (int) message.getContent().get("alertType");
             senderID = message.getSenderId();
-            Intent intent = new Intent(getApplicationContext(), Alert.class);
-            intent.putExtra("SENDER_ID", senderID);
-            intent.putExtra("ALERT_TYPE", alertType);
-            startActivity(intent);
+
+            if (alertType != 3) {
+                Intent intent = new Intent(getApplicationContext(), Alert.class);
+                intent.putExtra("SENDER_ID", senderID);
+                intent.putExtra("ALERT_TYPE", alertType);
+                startActivity(intent);
+            } else  {
+
+                String title = (String) message.getContent().get("title");
+                String text = (String) message.getContent().get("text");
+                Intent intent = new Intent(getApplicationContext(), Alert.class);
+                intent.putExtra("SENDER_ID", senderID);
+                intent.putExtra("ALERT_TYPE", alertType);
+                intent.putExtra("TITLE", title);
+                intent.putExtra("MESSAGE", text);
+                startActivity(intent);
+            }
 
         }
 

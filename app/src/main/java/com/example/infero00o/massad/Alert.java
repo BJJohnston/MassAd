@@ -51,6 +51,16 @@ String senderId;
         } else if (alertType == 2){
             TextView t = findViewById(R.id.alert);
             t.setText("Flood");
+        } else if (alertType == 3) {
+            String title = extras.getString("TITLE");
+            String text = extras.getString("MESSAGE");
+
+            TextView t = findViewById(R.id.alert);
+            t.setText(title);
+
+            TextView m = findViewById(R.id.customMessage);
+            m.setVisibility(View.VISIBLE);
+            m.setText(text);
         }
 
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
