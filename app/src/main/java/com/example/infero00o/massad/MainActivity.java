@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     private String TAG = "MainActivity";
     public String senderID;
     public int exitCount = 0;
+    public String admin_id = "0d5f5dd6-7ef8-4596-b5c5-cee8550d741b";
 
 
     @Override
@@ -79,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
             }
         });
+
 
         final Button fire = findViewById(R.id.fire);
         fire.setOnClickListener(new View.OnClickListener() {
@@ -131,25 +133,27 @@ public class MainActivity extends AppCompatActivity {
        textView.setText(incomingMessage);*/
 
             int alertType = (int) message.getContent().get("alertType");
-            senderID = message.getSenderId();
+            senderID = (String) message.getSenderId();
 
-            if (alertType != 3) {
-                Intent intent = new Intent(getApplicationContext(), Alert.class);
-                intent.putExtra("SENDER_ID", senderID);
-                intent.putExtra("ALERT_TYPE", alertType);
-                startActivity(intent);
-            } else  {
+            if (senderID.equals(admin_id)) {
 
-                String title = (String) message.getContent().get("title");
-                String text = (String) message.getContent().get("text");
-                Intent intent = new Intent(getApplicationContext(), Alert.class);
-                intent.putExtra("SENDER_ID", senderID);
-                intent.putExtra("ALERT_TYPE", alertType);
-                intent.putExtra("TITLE", title);
-                intent.putExtra("MESSAGE", text);
-                startActivity(intent);
+                if (alertType != 3) {
+                    Intent intent = new Intent(getApplicationContext(), Alert.class);
+                    intent.putExtra("SENDER_ID", senderID);
+                    intent.putExtra("ALERT_TYPE", alertType);
+                    startActivity(intent);
+                } else {
+                    String title = (String) message.getContent().get("title");
+                    String text = (String) message.getContent().get("text");
+                    Intent intent = new Intent(getApplicationContext(), Alert.class);
+                    intent.putExtra("SENDER_ID", senderID);
+                    intent.putExtra("ALERT_TYPE", alertType);
+                    intent.putExtra("TITLE", title);
+                    intent.putExtra("MESSAGE", text);
+                    startActivity(intent);
+                }
+
             }
-
         }
 
     };
@@ -178,7 +182,6 @@ public class MainActivity extends AppCompatActivity {
         int alertType = 1;
         HashMap<String, Object> content = new HashMap<>();
         content.put("alertType", alertType);
-
         content.put("device_name", Build.MANUFACTURER + " " + Build.MODEL);
         content.put("device_type", Build.DEVICE);
 
@@ -191,7 +194,6 @@ public class MainActivity extends AppCompatActivity {
         int alertType = 2;
         HashMap<String, Object> content = new HashMap<>();
         content.put("alertType", alertType);
-
         content.put("device_name", Build.MANUFACTURER + " " + Build.MODEL);
         content.put("device_type", Build.DEVICE);
 

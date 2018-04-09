@@ -13,7 +13,6 @@ import com.bridgefy.sdk.client.Bridgefy;
 import java.util.HashMap;
 
 public class customMessage extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +41,7 @@ public class customMessage extends AppCompatActivity {
         content.put("text", message);
         content.put("device_name", Build.MANUFACTURER + " " + Build.MODEL);
         content.put("device_type", Build.DEVICE);
+
 
         com.bridgefy.sdk.client.Message.Builder builder = new com.bridgefy.sdk.client.Message.Builder();
         builder.setContent(content);
