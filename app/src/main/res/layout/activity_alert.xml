@@ -46,4 +46,36 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/alert" />
+
+    <Button
+        android:id="@+id/alarmOnOff"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:drawableTop="@drawable/bell"
+        android:paddingTop="10sp"
+        android:text="Turn off alarm"
+        app:layout_constraintBottom_toTopOf="@+id/exitBuilding"
+        app:layout_constraintEnd_toStartOf="@+id/emergencyServices"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/customMessage" />
+
+    <Button
+        android:id="@+id/emergencyServices"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:drawableTop="@drawable/phone"
+        android:paddingTop="10sp"
+        android:text="Call Emergency Services"
+        app:layout_constraintBottom_toTopOf="@+id/exitBuilding"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/alarmOnOff"
+        app:layout_constraintTop_toBottomOf="@+id/customMessage" />
 </android.support.constraint.ConstraintLayout>

@@ -3,61 +3,38 @@ package com.example.infero00o.massad;
 
 import com.bridgefy.sdk.client.BFEnergyProfile;
 import com.bridgefy.sdk.client.BFEngineProfile;
-import com.bridgefy.sdk.client.Config;
-import com.example.infero00o.massad.R;
-import com.example.infero00o.massad.*;
-
-import android.app.PendingIntent;
-import android.widget.TextView;
-import android.Manifest;
-import android.bluetooth.BluetoothAdapter;
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.os.Build;
-import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.AppCompatActivity;
-
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
-
-
 import com.bridgefy.sdk.client.Bridgefy;
 import com.bridgefy.sdk.client.BridgefyClient;
+import com.bridgefy.sdk.client.Config;
 import com.bridgefy.sdk.client.Device;
 import com.bridgefy.sdk.client.Message;
 import com.bridgefy.sdk.client.MessageListener;
 import com.bridgefy.sdk.client.RegistrationListener;
 import com.bridgefy.sdk.client.Session;
 import com.bridgefy.sdk.client.StateListener;
+import com.example.infero00o.massad.R;
+import com.example.infero00o.massad.*;
 
-import java.lang.reflect.Array;
+import android.Manifest;
+import android.bluetooth.BluetoothAdapter;
+import android.content.Intent;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+
 
 public class MainActivity extends AppCompatActivity {
 
-
-    public connectedPeers Peers;
-    private String TAG = "MainActivity";
-    public String senderID;
-    public int exitCount = 0;
     public ArrayList admin_ids = new ArrayList();
-    public int personCount = 0;
     public String uuid;
+    public String senderID;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         if (admin_ids.isEmpty()) {
             qrScanner();
         }
+
         BluetoothAdapter btA = BluetoothAdapter.getDefaultAdapter();
         if (!btA.isEnabled()) {
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
@@ -90,43 +68,11 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
-        if (admin_ids.contains(uuid)){
-        final Button fire = findViewById(R.id.fire);
-        fire.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                fire();
-            }
-        });
-
-        final Button flood = findViewById(R.id.flood);
-        flood.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                flood();
-            }
-        });
-
-        final Button custom = findViewById(R.id.custom);
-        custom.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                custom();
-            }
-        });
-
-        final Button active = findViewById(R.id.active_shooter);
-        active.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                active();
-            }
-        });
 
 
-        }
 
 
+    }
 
     public void startBridgefy() {
         Bridgefy.start(messageListener, stateListener);
@@ -179,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onStartError(String message, int errorCode) {
-            Log.e(TAG, "onStartError: " + message);
+            Log.e("Main", "onStartError: " + message);
 
             if (errorCode == StateListener.INSUFFICIENT_PERMISSIONS) {
                 ActivityCompat.requestPermissions(MainActivity.this,
@@ -188,54 +134,12 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-
-    public void fire() {
-        int alertType = 1;
-        HashMap<String, Object> content = new HashMap<>();
-        content.put("alertType", alertType);
-        content.put("device_name", Build.MANUFACTURER + " " + Build.MODEL);
-        content.put("device_type", Build.DEVICE);
-
-        com.bridgefy.sdk.client.Message.Builder builder = new com.bridgefy.sdk.client.Message.Builder();
-        builder.setContent(content);
-        Bridgefy.sendBroadcastMessage(builder.build(), BFEngineProfile.BFConfigProfileLongReach);
-    }
-
-    public void flood() {
-        int alertType = 2;
-        HashMap<String, Object> content = new HashMap<>();
-        content.put("alertType", alertType);
-        content.put("device_name", Build.MANUFACTURER + " " + Build.MODEL);
-        content.put("device_type", Build.DEVICE);
-
-        com.bridgefy.sdk.client.Message.Builder builder = new com.bridgefy.sdk.client.Message.Builder();
-        builder.setContent(content);
-        Bridgefy.sendBroadcastMessage(builder.build(), BFEngineProfile.BFConfigProfileLongReach);
-    }
-
-    public void custom() {
-        Intent intent = new Intent(getApplicationContext(), customMessage.class);
-        startActivity(intent);
-    }
-
-    public void active() {
-        int alertType = 4;
-        HashMap<String, Object> content = new HashMap<>();
-        content.put("alertType", alertType);
-        content.put("device_name", Build.MANUFACTURER + " " + Build.MODEL);
-        content.put("device_type", Build.DEVICE);
-
-        com.bridgefy.sdk.client.Message.Builder builder = new com.bridgefy.sdk.client.Message.Builder();
-        builder.setContent(content);
-        Bridgefy.sendBroadcastMessage(builder.build(), BFEngineProfile.BFConfigProfileLongReach);
-    }
-
-
-
     public void qrScanner(){
         Intent intent = new Intent(getApplicationContext(), QRScanner.class);
         startActivityForResult(intent, 1);
     }
+
+
 
 
 
@@ -246,6 +150,16 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == 1){
             if (resultCode == RESULT_OK){
                 admin_ids = data.getStringArrayListExtra("admin_ids");
+                if (admin_ids.contains(uuid)){
+                    Intent intent = new Intent(getApplicationContext(), Admin.class);
+                    intent.putExtra("UUID", uuid);
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(getApplicationContext(), User.class);
+                    intent.putExtra("UUID", uuid);
+                    startActivity(intent);
+
+                }
 
 
             }

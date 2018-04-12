@@ -18,6 +18,7 @@ import com.bridgefy.sdk.client.BridgefyClient;
 import com.bridgefy.sdk.client.Device;
 import com.bridgefy.sdk.client.Message;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
@@ -34,7 +35,7 @@ public class QRScanner extends AppCompatActivity{
 
 
 
-        Button buttonScan = (Button) findViewById(R.id.buttonScan);
+        Button buttonScan = findViewById(R.id.buttonScan);
         buttonScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -57,8 +58,13 @@ public class QRScanner extends AppCompatActivity{
                 try {
                     //converting the data to json
                     JSONObject obj = new JSONObject(result.getContents());
-                    //setting values to textviews
-                    admin_ids.add(obj.getString("id"));
+                    JSONArray objArray = obj.getJSONArray("id");
+                    int length = objArray.length();
+
+                    for (int i =0; i<length; i++){
+                         admin_ids.add(objArray.getString(i));
+                    }
+
                     Intent intent = new Intent();
                     intent.putExtra("admin_ids", admin_ids);
                     setResult(RESULT_OK, intent);
