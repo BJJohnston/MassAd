@@ -56,7 +56,10 @@ String senderId;
         } else if (alertType == 2){
             TextView t = findViewById(R.id.alert);
             t.setText("Flood");
-        } else if (alertType == 3) {
+        }else if(alertType == 4){
+            TextView t = findViewById(R.id.alert);
+            t.setText("Active Shooter");
+        }else if (alertType == 3) {
             String title = extras.getString("TITLE");
             String text = extras.getString("MESSAGE");
 

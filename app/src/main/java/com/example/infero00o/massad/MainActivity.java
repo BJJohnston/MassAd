@@ -42,9 +42,11 @@ import com.bridgefy.sdk.client.RegistrationListener;
 import com.bridgefy.sdk.client.Session;
 import com.bridgefy.sdk.client.StateListener;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -53,14 +55,18 @@ public class MainActivity extends AppCompatActivity {
     private String TAG = "MainActivity";
     public String senderID;
     public int exitCount = 0;
-    public String admin_id = "0d5f5dd6-7ef8-4596-b5c5-cee8550d741b";
-
+    public ArrayList admin_ids = new ArrayList();
+    public int personCount = 0;
+    public String uuid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        if (admin_ids.isEmpty()) {
+            qrScanner();
+        }
         BluetoothAdapter btA = BluetoothAdapter.getDefaultAdapter();
         if (!btA.isEnabled()) {
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
@@ -71,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
         Bridgefy.initialize(getApplicationContext(), "c567d3e3-cb18-4f5f-af10-ef5cf018aa3a", new RegistrationListener() {
             @Override
             public void onRegistrationSuccessful(BridgefyClient bridgefyClient) {
+                uuid = bridgefyClient.getUserUuid();
                 startBridgefy();
                 Toast.makeText(getApplicationContext(), "Bridgefy Start", Toast.LENGTH_LONG).show();
             }
@@ -79,9 +86,11 @@ public class MainActivity extends AppCompatActivity {
             public void onRegistrationFailed(int errorCode, String message) {
                 Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
             }
+
+
         });
 
-
+        if (admin_ids.contains(uuid)){
         final Button fire = findViewById(R.id.fire);
         fire.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,7 +115,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-    }
+        final Button active = findViewById(R.id.active_shooter);
+        active.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                active();
+            }
+        });
+
+
+        }
+
+
 
     public void startBridgefy() {
         Bridgefy.start(messageListener, stateListener);
@@ -118,31 +138,22 @@ public class MainActivity extends AppCompatActivity {
 
         public void onMessageReceived(Message message) {
 
-
-
-
-
         }
 
         public void onBroadcastMessageReceived(Message message) {
-       /*Peer peer = new Peer(message.getSenderId(), (String) message.getContent().get("device_name"));
-       peer.setConnected(true);
-       Peers.addChild(peer);
-       String incomingMessage = (String) message.getContent().get("text");
-       TextView textView = findViewById(R.id.textView);
-       textView.setText(incomingMessage);*/
-
             int alertType = (int) message.getContent().get("alertType");
-            senderID = (String) message.getSenderId();
+            senderID = message.getSenderId();
+            //{"id":"0d5f5dd6-7ef8-4596-b5c5-cee8550d741b"}
 
-            if (senderID.equals(admin_id)) {
+            if (admin_ids.contains(senderID)) {
 
                 if (alertType != 3) {
                     Intent intent = new Intent(getApplicationContext(), Alert.class);
                     intent.putExtra("SENDER_ID", senderID);
                     intent.putExtra("ALERT_TYPE", alertType);
                     startActivity(intent);
-                } else {
+                }
+                else{
                     String title = (String) message.getContent().get("title");
                     String text = (String) message.getContent().get("text");
                     Intent intent = new Intent(getApplicationContext(), Alert.class);
@@ -205,6 +216,40 @@ public class MainActivity extends AppCompatActivity {
     public void custom() {
         Intent intent = new Intent(getApplicationContext(), customMessage.class);
         startActivity(intent);
+    }
+
+    public void active() {
+        int alertType = 4;
+        HashMap<String, Object> content = new HashMap<>();
+        content.put("alertType", alertType);
+        content.put("device_name", Build.MANUFACTURER + " " + Build.MODEL);
+        content.put("device_type", Build.DEVICE);
+
+        com.bridgefy.sdk.client.Message.Builder builder = new com.bridgefy.sdk.client.Message.Builder();
+        builder.setContent(content);
+        Bridgefy.sendBroadcastMessage(builder.build(), BFEngineProfile.BFConfigProfileLongReach);
+    }
+
+
+
+    public void qrScanner(){
+        Intent intent = new Intent(getApplicationContext(), QRScanner.class);
+        startActivityForResult(intent, 1);
+    }
+
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1){
+            if (resultCode == RESULT_OK){
+                admin_ids = data.getStringArrayListExtra("admin_ids");
+
+
+            }
+        }
     }
 
 }

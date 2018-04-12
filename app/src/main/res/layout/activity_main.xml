@@ -4,39 +4,66 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.infero00o.massad.MainActivity">
+    tools:context="com.example.infero00o.massad.MainActivity"
+    tools:layout_editor_absoluteY="81dp">
 
     <Button
         android:id="@+id/custom"
-        android:layout_width="143dp"
-        android:layout_height="78dp"
-        android:layout_marginEnd="252dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        android:drawableTop="@drawable/custom"
+        android:paddingTop="10sp"
         android:text="Custom Message"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/flood" />
+        app:layout_constraintStart_toEndOf="@+id/active_shooter"
+        app:layout_constraintTop_toBottomOf="@+id/fire" />
 
     <Button
         android:id="@+id/fire"
-        android:layout_width="143dp"
-        android:layout_height="78dp"
-        android:layout_marginEnd="24dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
+        android:drawableTop="@drawable/fire"
+        android:paddingTop="10sp"
         android:text="Fire"
+        app:layout_constraintBottom_toTopOf="@+id/custom"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/active_shooter"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/flood"
-        android:layout_width="143dp"
-        android:layout_height="78dp"
-        android:layout_marginStart="24dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:drawableTop="@drawable/flood"
+        android:paddingTop="10sp"
         android:text="Flood"
+        app:layout_constraintBottom_toTopOf="@+id/active_shooter"
+        app:layout_constraintEnd_toStartOf="@+id/fire"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/active_shooter"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:drawableTop="@drawable/gun"
+        android:paddingTop="10sp"
+        android:text="Active Shooter"
+        app:layout_constraintEnd_toStartOf="@+id/custom"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/flood" />
 
 </android.support.constraint.ConstraintLayout>

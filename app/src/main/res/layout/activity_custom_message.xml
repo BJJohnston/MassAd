@@ -4,46 +4,53 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.infero00o.massad.customMessage">
+    tools:context="com.example.infero00o.massad.customMessage"
+    tools:layout_editor_absoluteY="81dp">
 
     <EditText
         android:id="@+id/editTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="Title of message"
         android:inputType="text"
         android:singleLine="true"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/titleLabel" />
 
     <EditText
         android:id="@+id/editMessage"
-        android:layout_width="378dp"
-        android:layout_height="164dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
-        android:hint="Fire in *room number*"
+        android:hint="Enter message"
         android:inputType="textAutoCorrect|textShortMessage|textLongMessage"
-        android:singleLine="false"
+        android:singleLine="true"
         android:textAlignment="center"
         android:textColorHint="@color/hint"
         android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/sendCustomMessage"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/messageLabel" />
 
     <Button
         android:id="@+id/sendCustomMessage"
-        android:layout_width="377dp"
-        android:layout_height="60dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/colorPrimary"
+        android:layout_marginTop="16dp"
+        android:drawableTop="@drawable/custom"
         android:text="Send"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editMessage" />
@@ -52,9 +59,11 @@
         android:id="@+id/titleLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Title:"
+        app:layout_constraintBottom_toTopOf="@+id/editTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -62,9 +71,10 @@
         android:id="@+id/messageLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:text="Message:"
+        app:layout_constraintBottom_toTopOf="@+id/editMessage"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTitle" />
 </android.support.constraint.ConstraintLayout>
