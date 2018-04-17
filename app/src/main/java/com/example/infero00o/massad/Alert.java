@@ -12,6 +12,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -44,6 +45,8 @@ import java.util.HashMap;
 
 public class Alert extends AppCompatActivity {
 String senderId;
+String tel;
+    int alertType;
 
 
 
@@ -55,16 +58,23 @@ String senderId;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alert);
         Bundle extras = getIntent().getExtras();
-        int alertType = extras.getInt("ALERT_TYPE");
+         alertType = extras.getInt("ALERT_TYPE");
+        tel = extras.getString("TEL");
         if (alertType == 1){
             TextView t = findViewById(R.id.alert);
             t.setText("Fire");
+            TextView m = findViewById(R.id.customMessage);
+            m.setText("There is a fire near your location! Please stay calm and head to the nearest exit");
         } else if (alertType == 2){
             TextView t = findViewById(R.id.alert);
             t.setText("Flood");
+            TextView m = findViewById(R.id.customMessage);
+            m.setText("There is a flood near your location! Please stay calm and head to the nearest exit");
         }else if(alertType == 4){
             TextView t = findViewById(R.id.alert);
             t.setText("Active Shooter");
+            TextView m = findViewById(R.id.customMessage);
+            m.setText("There is a active shooting near your location! Please stay calm and head to the nearest exit");
         }else if (alertType == 3) {
             String title = extras.getString("TITLE");
             String text = extras.getString("MESSAGE");
@@ -73,17 +83,17 @@ String senderId;
             t.setText(title);
 
             TextView m = findViewById(R.id.customMessage);
-            m.setVisibility(View.VISIBLE);
             m.setText(text);
         }
 
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         // Vibrate for 500 milliseconds
         v.vibrate(2500);
-
         MediaPlayer mp = MediaPlayer.create(this, R.raw.alert);
-        mp.start();
-        notification();
+    mp.start();
+    notification();
+
+
 
         final Button exitBuilding = findViewById(R.id.exitBuilding);
         exitBuilding.setOnClickListener(new View.OnClickListener() {
@@ -116,7 +126,7 @@ String senderId;
             @Override
             public void onClick(View view) {
                     Intent intent = new Intent(Intent.ACTION_CALL);
-                    intent.setData(Uri.parse("tel:07513535685"));
+                    intent.setData(Uri.parse("tel:" + tel));
                     mp.pause();
                     if (Build.VERSION.SDK_INT >= 23) {
                         if (checkSelfPermission(android.Manifest.permission.CALL_PHONE)
@@ -201,6 +211,7 @@ String senderId;
         }
 
     }
+
 
     public  boolean isPermissionGranted() {
         if (Build.VERSION.SDK_INT >= 23) {

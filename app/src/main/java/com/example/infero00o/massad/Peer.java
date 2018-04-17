@@ -6,42 +6,57 @@ package com.example.infero00o.massad;
 
 public class Peer {
     private String uuid;
-    private String name;
-    private boolean connected;
+    private String make;
+    private String model;
+    private Boolean connected;
+    private Boolean admin;
 
 
-
-    public Peer(String uuid, String name) {
+    public Peer(String uuid, String make, String model) {
         this.uuid = uuid;
-        this.name = name;
+        this.make = make;
+        this.model = model;
 
     }
 
-    public String getId() {
+
+    public String getUuid() {
         return uuid;
     }
 
-    public void setId(String id) {
+    public void setUuid(String uuid) {
         this.uuid = uuid;
     }
 
-    public String getName() {
-        return name;
+    public String getMake() {
+        return make;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setMake(String make) {
+        this.make = make;
     }
 
-    public boolean isConnected() {
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public Boolean getConnected() {
         return connected;
     }
 
-    public void setConnected(boolean connected) {
+    public void setConnected(Boolean connected) {
         this.connected = connected;
     }
 
+    public Boolean getAdmin() {
+        return admin;
+    }
 
-
-
+    public void setAdmin(Boolean admin) {
+        this.admin = admin;
+    }
 }

@@ -29,6 +29,8 @@ public class QRScanner extends AppCompatActivity{
 
     private IntentIntegrator qrScan;
     public ArrayList admin_ids = new ArrayList();
+    public String location;
+    public String tel;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qrscanner);
@@ -59,6 +61,8 @@ public class QRScanner extends AppCompatActivity{
                     //converting the data to json
                     JSONObject obj = new JSONObject(result.getContents());
                     JSONArray objArray = obj.getJSONArray("id");
+                    location = obj.getString("location");
+                    tel = obj.getString("tel");
                     int length = objArray.length();
 
                     for (int i =0; i<length; i++){
@@ -67,6 +71,8 @@ public class QRScanner extends AppCompatActivity{
 
                     Intent intent = new Intent();
                     intent.putExtra("admin_ids", admin_ids);
+                    intent.putExtra("location", location);
+                    intent.putExtra("tel", tel);
                     setResult(RESULT_OK, intent);
                     finish();
                 } catch (JSONException e) {

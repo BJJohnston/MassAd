@@ -34,6 +34,7 @@ public class Admin extends AppCompatActivity {
     public ArrayList admin_ids = new ArrayList();
     public int personCount = 0;
     public String uuid;
+    public String location;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +43,10 @@ public class Admin extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         uuid = extras.getString("UUID");
+        location = extras.getString("location");
 
         final TextView t = findViewById(R.id.userInfoText);
-        t.setText("You are admin ID: " + uuid);
+        t.setText("You are admin ID: " + uuid + "\n" + "Your location: " + location);
 
         final Button fire = findViewById(R.id.fire);
         fire.setVisibility(View.VISIBLE);
@@ -80,6 +82,11 @@ public class Admin extends AppCompatActivity {
             public void onClick(View view) {
                 active();
             }
+        });
+        final Button connected = findViewById(R.id.connectedButton);
+        connected.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){connected();}
         });
 
     }
@@ -117,6 +124,11 @@ public class Admin extends AppCompatActivity {
     public void custom() {
         Intent intent = new Intent(getApplicationContext(), customMessage.class);
         startActivity(intent);
+    }
+    public void connected(){
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivityIfNeeded(intent, 0);
     }
 
     public void active() {
