@@ -1,10 +1,8 @@
 package com.example.infero00o.massad;
 
 import com.bridgefy.sdk.client.BFEngineProfile;
-import com.example.infero00o.massad.MainActivity.*;
 
 import android.Manifest;
-import android.R.*;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -12,13 +10,9 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.media.AudioAttributes;
 import android.media.MediaPlayer;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
-import android.os.CountDownTimer;
 import android.os.PowerManager;
 import android.os.Vibrator;
 import android.support.v4.app.ActivityCompat;
@@ -33,20 +27,15 @@ import android.widget.Toast;
 
 
 import com.bridgefy.sdk.client.Bridgefy;
-import com.bridgefy.sdk.client.BridgefyClient;
-import com.bridgefy.sdk.client.Device;
-import com.bridgefy.sdk.client.Message;
-import com.bridgefy.sdk.client.MessageListener;
-import com.bridgefy.sdk.client.RegistrationListener;
-import com.bridgefy.sdk.client.Session;
-import com.bridgefy.sdk.client.StateListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Alert extends AppCompatActivity {
-String senderId;
+
 String tel;
-    int alertType;
+int alertType;
+    public ArrayList admin_ids = new ArrayList();
 
 
 
@@ -60,6 +49,7 @@ String tel;
         Bundle extras = getIntent().getExtras();
          alertType = extras.getInt("ALERT_TYPE");
         tel = extras.getString("TEL");
+        admin_ids = extras.getStringArrayList("admin_ids");
         if (alertType == 1){
             TextView t = findViewById(R.id.alert);
             t.setText("Fire");
@@ -78,6 +68,7 @@ String tel;
         }else if (alertType == 3) {
             String title = extras.getString("TITLE");
             String text = extras.getString("MESSAGE");
+
 
             TextView t = findViewById(R.id.alert);
             t.setText(title);
@@ -99,9 +90,22 @@ String tel;
         exitBuilding.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String uuid;
+                int alertType = 9;
+                for (int i = 0; i < admin_ids.size(); i++) {
+                    uuid = admin_ids.get(i).toString();
+
+                    HashMap<String, Object> content = new HashMap<>();
+                    content.put("alertType", alertType);
+
+
+
+                    com.bridgefy.sdk.client.Message.Builder builder = new com.bridgefy.sdk.client.Message.Builder();
+                    builder.setContent(content);
+                    builder.setReceiverId(uuid);
+                    Bridgefy.sendMessage(builder.build(), BFEngineProfile.BFConfigProfileLongReach);}
                 mp.stop();
                 mp.release();
-                exitBuilding();
                 finish();
 
             }
@@ -155,18 +159,7 @@ String tel;
 
 
 
-    public void exitBuilding(){
 
-        MainActivity main = new MainActivity();
-        String exit = "true";
-        HashMap<String, Object> content = new HashMap<>();
-        content.put("exit", exit);
-
-
-        com.bridgefy.sdk.client.Message.Builder builder = new com.bridgefy.sdk.client.Message.Builder();
-        builder.setContent(content).setReceiverId(senderId);
-        Bridgefy.sendMessage(builder.build(), BFEngineProfile.BFConfigProfileLongReach);
-    }
 
     public void notification(){
         TextView t = findViewById(R.id.alert);

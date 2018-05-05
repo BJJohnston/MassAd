@@ -17,6 +17,8 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,12 +31,24 @@ public class directMessage extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         String title = extras.getString("TITLE");
         String text = extras.getString("MESSAGE");
+        String uuid = extras.getString("senderID");
 
         TextView t = findViewById(R.id.alert);
         t.setText(title);
 
         TextView m = findViewById(R.id.customMessage);
         m.setText(text);
+
+        Button reply = findViewById(R.id.buttonReply);
+        reply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), sendDirectMessage.class);
+                intent.putExtra("UUID", uuid);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         notificationMessage();
     }
@@ -121,8 +135,7 @@ public class directMessage extends AppCompatActivity {
                 return;
             }
 
-            // other 'case' lines to check for other
-            // permissions this app might request
+
         }
     }
 

@@ -9,6 +9,10 @@ public class Peer {
     private String make;
     private String model;
     private Boolean connected;
+
+
+
+    private Boolean outside;
     private Boolean admin;
 
 
@@ -50,6 +54,14 @@ public class Peer {
 
     public void setConnected(Boolean connected) {
         this.connected = connected;
+    }
+
+    public Boolean getOutside() {
+        return outside;
+    }
+
+    public void setOutside(Boolean outside) {
+        this.outside = outside;
     }
 
     public Boolean getAdmin() {
