@@ -45,7 +45,8 @@
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/alert" />
+        app:layout_constraintTop_toBottomOf="@+id/alert"
+        tools:text="There is a fire! Please exit the building" />
 
     <Button
         android:id="@+id/alarmOnOff"

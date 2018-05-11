@@ -13,6 +13,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:text="Thank you for logging in!\nYour user ID is:  Youre located at:\nPlease keep this application open and wait for any alerts!"
         android:textAlignment="center"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
